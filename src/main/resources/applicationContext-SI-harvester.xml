@@ -28,8 +28,7 @@ To execute, specify "jdbc" in the parameter and set the required system configur
     channel="datasetIn" data-source="dataSource" select-sql-parameter-source="datasetConfigSqlParamSource"     
      />
     
-    <poller default="true" max-messages-per-poll="1" receive-timeout="${harvest.pollTimeout}"
-		fixed-delay="${harvest.pollRate}"
+    <poller default="true" receive-timeout="${harvest.pollTimeout}" fixed-delay="${harvest.pollRate}"
 		xmlns="http://www.springframework.org/schema/integration">
 		<transactional isolation="SERIALIZABLE" />
 	</poller>

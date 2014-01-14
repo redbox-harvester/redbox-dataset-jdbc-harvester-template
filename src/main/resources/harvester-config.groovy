@@ -52,8 +52,8 @@ environments {
 					}
 				}
 			}
-			pollRate = "5000" // poll every x milliseconds
-			pollTimeout = "600000" // each poll should complete within these milliseconds, taking note that a poll includes script execution 
+			pollRate = "120000" // poll every x milliseconds
+			pollTimeout = "60000" // each poll should complete within these milliseconds 
 			scripts {
 				scriptBase = client.base + "resources/scripts/"
 				//             "script path" : "configuration path" - pass in an emtpy string config path if you do not want to override the script's default config lookup behavior.
