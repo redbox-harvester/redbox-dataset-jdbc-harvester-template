@@ -16,9 +16,7 @@
             http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd 
             http://www.springframework.org/schema/integration/jmx 
             http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd">
-<!-- 
-Configuration file for harvesting from a DB table using  JDBC.
- -->
+<!-- Configuration file for harvesting from a DB table using  JDBC.-->
  
  	<int-jmx:mbean-export default-domain="au.com.redboxresearchdata.harvester.client.sample.jdbc" server="mbeanServer"/>
 	
@@ -67,9 +65,9 @@ Configuration file for harvesting from a DB table using  JDBC.
 	</bean>
 	
 	<bean id="placeholderProperties" class="au.com.redboxresearchdata.util.config.ConfigSlurperPlaceholderConfigurer">
-		<property name="environment" value="#{grailsApplication.getConfig().get('environment')}"/>
+		<property name="environment" value="#{systemProperties['environment']}"/>
 		<property name="defaultEnvironment" value="production" />
-		<property name="config" value="#{grailsApplication.getConfig().get('clientConfigObj')}" />
+		<property name="location" value="#{systemProperties['harvester.client.config.file']}" />
 	</bean>			
 	
 	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
@@ -81,5 +79,6 @@ Configuration file for harvesting from a DB table using  JDBC.
 	<bean id="datasetConfigSqlParamSource" class="au.com.redboxresearchdata.jdbc.ConfigSqlParameterSource" >
 		<property name="config" value="#{placeholderProperties.config}" />
 		<property name="type" value="Dataset" />
-	</bean> 	
+	</bean>
+	<bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean"/> 	
 </beans>

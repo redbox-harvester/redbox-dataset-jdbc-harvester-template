@@ -1,0 +1,1 @@
+java -Denvironment=development -cp "resources/lib/*" au.com.redboxresearchdata.harvester.json.client.Main harvester-config-console.groovy
