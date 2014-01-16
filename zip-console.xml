@@ -12,6 +12,16 @@
 	    <includes>
 	      <include>*</include>	      
 	    </includes>
+	    <excludes>
+	    	<exclude>deploy-*</exclude>
+	    </excludes>
+	</fileSet>
+	<fileSet>
+	    <directory>${project.basedir}/src/main/resources/deploy-console</directory>
+	    <outputDirectory>/</outputDirectory>
+	    <includes>
+	      <include>**/*</include>	      
+	    </includes>
 	</fileSet>
 	<fileSet>
 	    <directory>${project.basedir}/src/main/resources/resources</directory>
