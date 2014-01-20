@@ -66,6 +66,49 @@ environments {
 			url = "tcp://localhost:9101"
 		}
 	}
+	test {
+		client {
+			harvesterId = harvesterId // the unique harvester name, can be dynamic or static. Console only clients likely won't need this to be dynamic.
+			description = "Sample ReDBox Dataset JDBC Harvester"
+			base = "${managerBase}${harvesterId}/".toString() // optional base directory.
+			autoStart = true // whether the Harvester Manager will start this harvester upon start up otherwise, it will be manually started by an administrator
+			siFile = "applicationContext-SI-harvester.xml" // the app context definition for SI
+			siPath = base+siFile // the path used when starting this harvester
+			classPathEntries = ["resources/lib/mysql-connector-java-5.1.24.jar"] // entries that will be added to the class path
+			inboundAdapter = "inboundJdbcAdapter" // the name of the main SI Endpoint the framework will ".stop()"
+		}
+		file {
+			runtimePath = client.base+"runtime/" + configPath
+			customPath = client.base+"custom/" + configPath
+			ignoreEntriesOnSave = ["runtime"]
+		}
+		harvest {
+			jdbc {
+				user = "root"
+				pw = "rootadmin"
+				driver = "com.mysql.jdbc.Driver"
+				url = "jdbc:mysql://localhost/jdbc_harvester"
+				Dataset {
+					query = "SELECT * FROM dataset WHERE last_updated >= TIMESTAMP(:last_harvest_ts)"
+					sqlParam {
+						last_harvest_ts = "2013-10-10 00:00:00"
+					}
+				}
+			}
+			pollRate = "120000" // poll every x milliseconds
+			pollTimeout = "60000" // each poll should complete within these milliseconds
+			scripts {
+				scriptBase = client.base + "resources/scripts/"
+				//             "script path" : "configuration path" - pass in an emtpy string config path if you do not want to override the script's default config lookup behavior.
+				preBuild = [] // executed after a successful, but prior to building the JSON String, no data is passed
+				preAssemble = [["merge.groovy":""]] // executed prior to building the JSON string, each resultset (map) of the JDBC poll is passed as 'data'
+				postBuild = [["update_last_harvest_ts.groovy":""],["saveconfig.groovy":""]] // executed after the data is processed, but prior to ending the poll
+			}
+		}
+		activemq {
+			url = "tcp://localhost:9101"
+		}
+	}
 	production {
 		
 	}
