@@ -42,6 +42,7 @@
   </fileSets>
 	<dependencySets>
 		<dependencySet>
+			<scope>runtime</scope>
 			<useProjectArtifact>false</useProjectArtifact>
 			<outputDirectory>/resources/lib</outputDirectory>
 		</dependencySet>

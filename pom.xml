@@ -9,39 +9,52 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>redbox-dataset-jdbc-harvester-template</name>
   <dependencies>
- 	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>5.1.24</version>
-		<scope>runtime</scope>
+	<dependency>
+		<groupId>org.hsqldb</groupId>
+		<artifactId>hsqldb</artifactId>
+		<version>2.3.1</version>
+		<scope>compile</scope>
 	</dependency>
-  </dependencies>
-  <build>
-  	<plugins>
-  		<plugin>
-	      	<artifactId>maven-assembly-plugin</artifactId>
-	        <version>2.4</version>
-	        <configuration>
-	     		<descriptors>
-	     			<descriptor>zip.xml</descriptor>
-	     		</descriptors>
-	        </configuration>
-	        <executions>
-		      <execution>
-		        <id>make-assembly</id> 
-		        <phase>package</phase> 
-		        <goals>
-		          <goal>single</goal> 
-		        </goals>
-		      </execution>
-		    </executions>
-	      </plugin>
-  	</plugins>
-  </build>
+	<dependency>
+		<groupId>org.hsqldb</groupId>
+		<artifactId>sqltool</artifactId>
+		<version>2.3.1</version>
+		<scope>compile</scope>
+	</dependency>			
+	</dependencies>
   <profiles>
   	<profile>
+  		<id>manager</id>
+  		<activation>
+  			<activeByDefault>true</activeByDefault>
+  		</activation>  		
+		<build>
+		  	<plugins>
+		  		<plugin>
+			      	<artifactId>maven-assembly-plugin</artifactId>
+			        <version>2.4</version>
+			        <configuration>
+			     		<descriptors>
+			     			<descriptor>zip.xml</descriptor>	     						     			
+			     		</descriptors>
+			        </configuration>
+			        <executions>
+				      <execution>
+				        <id>make-assembly</id>
+				        <configuration></configuration> 
+				        <phase>package</phase> 
+				        <goals>
+				          <goal>single</goal> 
+				        </goals>
+				      </execution>
+				    </executions>
+			      </plugin>
+		  	</plugins>
+		  </build>
+  	</profile>
+  	<profile>
   		<id>console</id>
-  		<dependencies>
+  		<dependencies>  			
 			<dependency>
 				<groupId>au.com.redboxresearchdata</groupId>
 				<artifactId>json-harvester-client</artifactId>
@@ -51,25 +64,59 @@
   		</dependencies>
   		<build>
   			<plugins>
-  		<plugin>
-	      	<artifactId>maven-assembly-plugin</artifactId>
-	        <version>2.4</version>
-	        <configuration>
-	     		<descriptors>
-	     			<descriptor>zip-console.xml</descriptor>
-	     		</descriptors>
-	        </configuration>
-	        <executions>
-		      <execution>
-		        <id>make-assembly</id> 
-		        <phase>package</phase> 
-		        <goals>
-		          <goal>single</goal> 
-		        </goals>
-		      </execution>
-		    </executions>
-	      </plugin>
-  	</plugins>
+	  			<plugin>
+			      	<artifactId>maven-assembly-plugin</artifactId>
+			        <version>2.4</version>
+			        <configuration>
+			     		<descriptors>
+			     			<descriptor>zip-console.xml</descriptor>
+			     		</descriptors>
+			        </configuration>
+			        <executions>
+				      <execution>
+				        <id>make-assembly</id> 
+				        <phase>package</phase> 
+				        <goals>
+				          <goal>single</goal> 
+				        </goals>
+				      </execution>
+				    </executions>
+		      </plugin>
+  			</plugins>
+  		</build>
+  	</profile>
+  	<profile>
+  		<id>all</id>
+  		<dependencies>  			
+			<dependency>
+				<groupId>au.com.redboxresearchdata</groupId>
+				<artifactId>json-harvester-client</artifactId>
+				<version>1.0.0.BUILD-SNAPSHOT</version>
+				<scope>runtime</scope>
+			</dependency>
+  		</dependencies>
+  		<build>
+  			<plugins>
+	  			<plugin>
+			      	<artifactId>maven-assembly-plugin</artifactId>
+			        <version>2.4</version>
+			        <configuration>
+			     		<descriptors>
+			     			<descriptor>zip.xml</descriptor>
+			     			<descriptor>zip-console.xml</descriptor>
+			     		</descriptors>
+			        </configuration>
+			        <executions>
+				      <execution>
+				        <id>make-assembly</id> 
+				        <phase>package</phase> 
+				        <goals>
+				          <goal>single</goal> 
+				        </goals>
+				      </execution>
+				    </executions>
+		      </plugin>
+  			</plugins>
   		</build>
   	</profile>
   </profiles>

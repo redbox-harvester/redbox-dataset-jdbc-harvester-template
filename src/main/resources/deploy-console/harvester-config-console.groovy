@@ -16,7 +16,7 @@
  *51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 /**
- * Sample Dataset JDBC harvester configuration compatible with Harvester Manager.
+ * Sample Dataset JDBC harvester configuration for console execution only.
  * 
  * @author Shilo Banihit
  *
@@ -30,7 +30,7 @@ environments {
 			base = "" // optional base directory. 
 			autoStart = true // whether the Harvester Manager will start this harvester upon start up otherwise, it will be manually started by an administrator 
 			siPath = "applicationContext-SI-harvester-console.xml" // the path used when starting this harvester
-			classPathEntries = ["resources/lib/mysql-connector-java-5.1.24.jar"] // entries that will be added to the class path
+			classPathEntries = ["resources/lib/hsqldb-2.3.1.jar"] // entries that will be added to the class path
 			inboundAdapter = "inboundJdbcAdapter" // the name of the main SI Endpoint the framework will ".stop()" 
 		}
 		file {
@@ -40,12 +40,12 @@ environments {
 		}
 		harvest {			
 			jdbc {
-				user = "root"
-				pw = "rootadmin"
-				driver = "com.mysql.jdbc.Driver"
-				url = "jdbc:mysql://localhost/jdbc_harvester"
+				user = "SA"
+				pw = ""
+				driver = "org.hsqldb.jdbcDriver"
+				url = "jdbc:hsqldb:file:db/data/local"
 				Dataset {
-					query = "SELECT * FROM dataset WHERE last_updated >= TIMESTAMP(:last_harvest_ts)"
+					query = "SELECT * FROM \"dataset\" WHERE \"last_updated\" >= TIMESTAMP(:last_harvest_ts)"
 					sqlParam {
 						last_harvest_ts = "2013-10-10 00:00:00"
 					}
