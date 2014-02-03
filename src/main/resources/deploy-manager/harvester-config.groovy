@@ -117,7 +117,7 @@ environments {
 			autoStart = true // whether the Harvester Manager will start this harvester upon start up otherwise, it will be manually started by an administrator
 			siFile = "applicationContext-SI-harvester.xml" // the app context definition for SI
 			siPath = base+siFile // the path used when starting this harvester
-			classPathEntries = [""] // entries that will be added to the class path
+			classPathEntries = ["resources/lib/hsqldb-2.3.1.jar"] // entries that will be added to the class path
 			inboundAdapter = "inboundJdbcAdapter" // the name of the main SI Endpoint the framework will ".stop()"
 		}
 		file {
@@ -127,12 +127,12 @@ environments {
 		}
 		harvest {
 			jdbc {
-				user = ""
+				user = "SA"
 				pw = ""
-				driver = ""
-				url = ""
+				driver = "org.hsqldb.jdbcDriver"
+				url = "jdbc:hsqldb:file:"+client.base+"db/data/local"
 				Dataset {
-					query = ""
+					query = "SELECT * FROM \"dataset\" WHERE \"last_updated\" >= TIMESTAMP(:last_harvest_ts)"
 					sqlParam {
 						last_harvest_ts = "2013-10-10 00:00:00"
 					}
