@@ -20,7 +20,7 @@
 Configuration file for harvesting from a DB table using  JDBC.
  -->
  
- 	<int-jmx:mbean-export default-domain="au.com.redboxresearchdata.harvester.client.sample.jdbc" server="mbeanServer"/>
+ 	<int-jmx:mbean-export id="mbeanExporterRedboxJdbcHarvester" default-domain="au.com.redboxresearchdata.harvester.client.sample.jdbc" server="mbeanServer"/>
 	
 	<int-jdbc:inbound-channel-adapter query="${harvest.jdbc.Dataset.query}" id="inboundJdbcAdapter"
     channel="datasetIn" data-source="dataSource" select-sql-parameter-source="datasetConfigSqlParamSource"     

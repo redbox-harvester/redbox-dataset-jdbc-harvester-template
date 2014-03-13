@@ -32,7 +32,8 @@ environments {
 			siFile = "applicationContext-SI-harvester.xml" // the app context definition for SI
 			siPath = base+siFile // the path used when starting this harvester
 			classPathEntries = ["resources/lib/hsqldb-2.3.1.jar"] // entries that will be added to the class path
-			inboundAdapter = "inboundJdbcAdapter" // the name of the main SI Endpoint the framework will ".stop()" 
+			mbeanExporter = "mbeanExporterRedboxJdbcHarvester" // the exporter is necessary for orderly shutdown
+			orderlyShutdownTimeout = 10000 // in ms
 		}
 		file {
 			runtimePath = client.base+"runtime/" + configPath
@@ -75,7 +76,8 @@ environments {
 			siFile = "applicationContext-SI-harvester.xml" // the app context definition for SI
 			siPath = base+siFile // the path used when starting this harvester
 			classPathEntries = ["resources/lib/hsqldb-2.3.1.jar"] // entries that will be added to the class path
-			inboundAdapter = "inboundJdbcAdapter" // the name of the main SI Endpoint the framework will ".stop()"
+			mbeanExporter = "mbeanExporterRedboxJdbcHarvester" // the exporter is necessary for orderly shutdown
+			orderlyShutdownTimeout = 10000 // in ms
 		}
 		file {
 			runtimePath = client.base+"runtime/" + configPath
@@ -118,7 +120,8 @@ environments {
 			siFile = "applicationContext-SI-harvester.xml" // the app context definition for SI
 			siPath = base+siFile // the path used when starting this harvester
 			classPathEntries = ["resources/lib/hsqldb-2.3.1.jar"] // entries that will be added to the class path
-			inboundAdapter = "inboundJdbcAdapter" // the name of the main SI Endpoint the framework will ".stop()"
+			mbeanExporter = "mbeanExporterRedboxJdbcHarvester" // the exporter is necessary for orderly shutdown
+			orderlyShutdownTimeout = 10000 // in ms
 		}
 		file {
 			runtimePath = client.base+"runtime/" + configPath
