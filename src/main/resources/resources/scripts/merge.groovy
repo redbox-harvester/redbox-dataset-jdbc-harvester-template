@@ -72,22 +72,32 @@ class MergeUtil {
 		mergeField(data, templateJson)		
 	}
 	
-	/*
+	/**
 	 * This method just compares each key in the template map against the source map. If the key is not an empty string or not null, the source map's entry is not altered.
-	 * Otherwise, the template map's values is copied over. If the template field data is a map, the map's fields are inspected recursively.
+	 * Otherwise, the template map's value is copied over. If the template field data is a map, the map's fields are inspected recursively. 
+	 * The parent key is also passed on so flattened keys present on the source data can be mapped to its equivalent template keys. E.g. "tfpackage.title" == "tfpackage { title "
 	 */
-	def mergeField(Map srcData, Map tempData) {
-		for (key in tempData?.keySet()) {
+	def mergeField(Map srcData, Map tempData, parentKey=null) {
+		for (key in tempData?.keySet()) {			 
 			if (tempData[key] instanceof Map) {
 				if (srcData[key] == null) {
 					srcData[key] = [:]
-				}
-				mergeField(srcData[key], tempData[key])	
+				}                								
+				mergeField(srcData[key], tempData[key], (parentKey ? parentKey + "." + key : key) )	
 			} else {
+				if (parentKey) {
+					// try to check if srcData has 'parentKey.key' entry
+                    String fullKey = parentKey + "." + key  
+					def srcDataVal = data[fullKey]                    
+					if (srcDataVal) {
+						srcData[key] = srcDataVal
+					}
+				} 
 				if (srcData[key] == null || "".equals(srcData[key])) {
 					srcData[key] = tempData[key]
-				} 
+				} 				
 			}
+			
 		}
 	}
 }

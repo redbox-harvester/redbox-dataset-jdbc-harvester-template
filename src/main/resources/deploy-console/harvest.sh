@@ -1,6 +1,7 @@
 #!/bin/bash
-# Remove the next line if you don't want to load demo data
+# Adding 'resources/lib' to the classpath
 export CLASSPATH="resources/lib/*:*"
+# Remove the next line if you don't want to load demo data
 java -cp $CLASSPATH org.hsqldb.cmdline.SqlTool --rcfile=db/local-hsqldb.rc local db/dataset.sql
 # Running the harvester client
 export PROG_DIR=`cd \`dirname $0\`; pwd`
