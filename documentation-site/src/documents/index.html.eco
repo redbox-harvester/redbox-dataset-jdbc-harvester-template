@@ -1,0 +1,11 @@
+---
+layout: 'default'
+title: 'JDBC-Dataset-Home'
+---
+<div class="jumbotron">
+	<h2>JDBC - ReDBox Dataset Harvester Documentation</h2>
+	<p> 
+		This documentation describes the JDBC to ReDBox Dataset Harvester Client, an implementation of <a href="<%= @client.url %>" class="rewritable-url">Harvester Client</a> that transfers data from JDBC-accessible databases into ReDBox. 
+		If you want to integrate your institution-specific database into ReDBox, you have come to the right place.
+	</p>
+</div>

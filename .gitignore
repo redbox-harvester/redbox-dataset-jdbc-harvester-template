@@ -1,2 +1,4 @@
 /.settings
 /target
+documentation-site/out/
+documentation-site/node_modules/

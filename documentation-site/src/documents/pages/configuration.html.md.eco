@@ -1,0 +1,76 @@
+```
+title: Configuration
+layout: page
+pageOrder: 2
+```
+
+The configuration information below are specific to this implementation. 
+Some items on the configuration is specific to the <a href="<%= @manager.url %>pages/configuration" class="rewritable-url">Harvester Manager</a>, as well as
+to the <a href="<%= @client.url %>pages/developer" class="rewritable-url">JSONFactory component</a>.
+
+### Configuration entries 
+
+Entries described below are from the [main server-model configuration file][mainConfig]. Some entries may not exist in the [console configuration][consoleConfig].
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Configuration Entry</th>
+    <th>Purpose</th>
+    <th>Remarks</th>
+  </tr>
+  <tr>
+  	<td>harvest.jdbc.user</td>
+  	<td>
+  		The DB user name.
+  	</td>
+  	<td>  		
+  	</td>
+  </tr>
+  <tr>
+  	<td>harvest.jdbc.pw</td>
+  	<td>
+  		The DB password
+  	</td>
+  	<td>
+  	</td>
+  </tr>
+  <tr>
+  	<td>harvest.jdbc.url</td>
+  	<td>
+  		The JDBC url 
+  	</td>
+  	<td>
+  	</td>
+  </tr>
+  <tr>
+  	<td>harvest.jdbc.Dataset.query</td>
+  	<td>
+  		The query to use when pull the Dataset records.
+  	</td>
+  	<td>
+  		The query can contain named parameters, see "sqlParam" section. The JDBC ResultSet must contain the field names matching the dataset template, but in flattened, dot-point-delimited form.  One approach to achieve this is by creating a view that meets the naming requirements.
+  	</td>
+  </tr>
+  <tr>
+  	<td>harvest.jdbc.Dataset.sqlParam.last_harvest_ts</td>
+  	<td>
+  		The named parameter indicating the last time the harvest query was executed. 
+  	</td>
+  	<td>
+  		This parameter allows for incremental harvests. The value of this parameter is updated at runtime through a [script][updateTsScript] that is launched as part of the <a href="<%= @client.url %>pages/developer" class="rewritable-url">JSONFactory execution</a>.
+  	</td>
+  </tr>
+  <tr>
+  	<td>activemq.url</td>
+  	<td>
+  		The ActiveMQ url where the data will be sent.
+  	</td>
+  	<td>
+  		This is typically where ReDBox is installed.
+  	</td>
+  </tr>
+</table>
+
+[mainConfig]:https://github.com/redbox-harvester/redbox-dataset-jdbc-harvester-template/blob/master/src/main/resources/deploy-manager/harvester-config.groovy
+[consoleConfig]:https://github.com/redbox-harvester/redbox-dataset-jdbc-harvester-template/blob/master/src/main/resources/deploy-console/harvester-config-console.groovy
+[updateTsScript]:https://github.com/redbox-harvester/redbox-dataset-jdbc-harvester-template/blob/master/src/main/resources/resources/scripts/update_last_harvest_ts.groovy

@@ -1,0 +1,72 @@
+```
+title: Installation
+layout: page
+pageOrder: 1
+```
+
+This harvester can installed in 2 ways: as a console application (console) or embedded within the JSON Harvester Client Manager (server).
+Tested to work starting with ReDBox 1.7 or above and Java 1.7 or above.
+
+### Console installation
+
+This mode allows the harvester client to execute from a shell environment (cron, etc.).
+
+	mkdir console-only
+	cd console-only
+	curl -L -o redbox-dataset-jdbc-harvester.zip "http://dev.redboxresearchdata.com.au/nexus/service/local/artifact/maven/redirect?r=snapshots&g=au.com.redboxresearchdata&a=redbox-dataset-jdbc-harvester-template&v=LATEST&c=bin-console&e=zip"
+	unzip redbox-dataset-jdbc-harvester.zip -d redbox-dataset-jdbc-harvester
+	cd redbox-dataset-jdbc-harvester
+	chmod +x harvest.sh
+	
+To execute the harvest:
+	
+	./harvest.sh
+
+Some dataset records should then be visible in ReDBox with title that start with "JSON Harvester".
+
+To stop the client, press "CTRL+C".
+
+For the most part, the console deployment will meet most needs. For more advanced use cases, the Harvester can also be deployed inside a web application: the Server model.
+
+### Server-model installation
+
+This mode allows one or many harvesters execute within a web application - the <a href="<%= @manager.url %>" class="rewritable-url">Harvester Manager</a>. The Harvester Manager exposes an API through which administrators or external applications can control the harvesters. As of writing, the API is unsecured and assumes that the server is running on a secured network. The code snippets below apply to Ubuntu 12.04 32-bit instance with Tomcat 7. Please adjust the commands as it pertains to your distribution and software stack of choice.
+
+#### Install an application server, e.g. Tomcat. Use 8080 as the server port.
+
+Install Tomcat7 on Debian-based (e.g. Ubuntu) distros:
+
+	sudo apt-get -y install tomcat7 tomcat7-admin
+	sudo chmod g+w /usr/share/tomcat7
+
+#### [Download the harvester manager war file][ManagerWarSnapshot] and install it using the application-server specific method.
+Deploying the Manager to Tomcat in a Ubuntu server:
+	
+	curl -L -o json-harvester-manager.war "http://dev.redboxresearchdata.com.au/nexus/service/local/artifact/maven/redirect?r=snapshots&g=au.com.redboxresearchdata&a=json-harvester-manager&v=LATEST&e=war"
+	sudo cp json-harvester-manager.war /var/lib/tomcat7/webapps/json-harvester-manager.war.tmp
+ 
+	sudo mv /var/lib/tomcat7/webapps/json-harvester-manager.war.tmp /var/lib/tomcat7/webapps/json-harvester-manager.war
+
+#### Add a harvester client to the Manager and optionally verify that the harvester has been added.
+Quickly installing a harvester client to the Manager:
+
+	curl -i -H "Accept: application/json" http://localhost:8080/json-harvester-manager/harvester/createFromTemplate/redboxSampleJdbcHarvester?template=redboxSampleJdbcHarvester
+	
+Verifying the harvester client installation:
+	
+	curl -i -H "Accept: application/json" http://localhost:8080/json-harvester-manager/harvester/
+	
+#### Start the harvester.
+
+Starting the harvester through the Manager API:
+
+	curl -i -H "Accept: application/json" http://localhost:8080/json-harvester-manager/harvester/start/redboxSampleJdbcHarvester
+
+Since the implementation packages a internal dabase, some dataset records should then be visible in ReDBox with title that start with "JSON Harvester".
+
+#### Stop the harvester.
+
+	curl -i -H "Accept: application/json" http://localhost:8080/json-harvester-manager/harvester/stop/redboxSampleJdbcHarvester
+
+
+[ManagerWarSnapshot]:http://dev.redboxresearchdata.com.au/nexus/service/local/artifact/maven/redirect?r=snapshots&g=au.com.redboxresearchdata&a=json-harvester-manager&v=LATEST&e=war
