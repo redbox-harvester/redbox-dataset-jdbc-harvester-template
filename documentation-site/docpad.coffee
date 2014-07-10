@@ -153,6 +153,8 @@ docpadConfig = {
 					url: "http://localhost:9780/"
 				manager:
 					url: "http://localhost:9782/"
+				json:
+					url: "http://localhost:9784/"
 		static: # The version hosted at GH pages
 			templateData:
 				site:
@@ -166,6 +168,8 @@ docpadConfig = {
 					url: "http://harvester-utilities-snapshot.redboxresearchdata.com.au/"
 				manager:
 					url: "http://harvester-manager-snapshot.redboxresearchdata.com.au/"
+				json:
+					url: "http://harvester-json-snapshot.redboxresearchdata.com.au/"
 		release: # The released version hosted at wherever.
 			templateData:
 				site:
@@ -179,6 +183,8 @@ docpadConfig = {
 					url: "http://harvester-utilities-release.redboxresearchdata.com.au/"
 				manager:
 					url: "http://harvester-manager-release.redboxresearchdata.com.au/"
+				json:
+					url: "http://harvester-json-release.redboxresearchdata.com.au/"
 	
 }
 

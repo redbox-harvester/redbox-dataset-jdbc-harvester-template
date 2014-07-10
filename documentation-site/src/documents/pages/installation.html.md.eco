@@ -5,6 +5,7 @@ pageOrder: 1
 ```
 
 This harvester can installed in 2 ways: as a console application (console) or embedded within the JSON Harvester Client Manager (server).
+Please make sure that you have installed and configured your <a href="<%= @json.url %>" class="rewritable-url">JSON Harvester Server Plugin</a>.
 Tested to work starting with ReDBox 1.7 or above and Java 1.7 or above.
 
 ### Console installation
