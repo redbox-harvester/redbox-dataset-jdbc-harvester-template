@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<!-- Use the .htaccess and remove these lines to avoid edge case issues.
+		 More info: h5bp.com/i/378 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<!-- Our site title and description -->
+	<title>Installation | ReDBox JDBC-Dataset Harvester</title>
+	<meta name="description" content="Documentation for the JDBC to ReDBox Dataset Harvester." />
+	<meta name="keywords" content="ReDBox, Research, Data, Data Integration, Spring Integration, Spring, Groovy" />
+	<meta name="author" content="Shilo Banihit" />
+
+	<!-- Output DocPad produced meta elements -->
+	<meta name="generator" content="DocPad v6.69.0" />
+
+	<!-- Mobile viewport optimized: h5bp.com/viewport -->
+	<meta name="viewport" content="width=device-width" />
+
+	<!-- Icons -->
+		<link rel="shortcut icon" href="images/icons/favicon.ico">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icons/apple-touch-icon-144-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/apple-touch-icon-114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/apple-touch-icon-72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="images/icons/apple-touch-icon-57-precomposed.png">
+
+	<!-- Shims: IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+		<script async src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<script type="text/javascript">
+		var projName = "/redbox-dataset-jdbc-harvester-template";
+		var siteUrl = "http://harvester-jdbc-redbox-snapshot.redboxresearchdata.com.au/";
+		var needsRewrite = function() {
+			var pathname = location.pathname;
+			return pathname.indexOf(projName) == 0 || pathname.indexOf("/release") == 0;
+		};
+		var getNewPath = function(projName, pathName) {
+			var newPath = projName;
+			if (pathName.indexOf(projName) == -1) {
+				newPath = "/release";
+				var releaseNumMatch = pathName.match(/\/release\/(.*)/);
+				if (releaseNumMatch != null && releaseNumMatch[1] != "") {
+					var pathCompArr = releaseNumMatch[1].split("/");
+					newPath = newPath + "/" + pathCompArr[0];
+				}
+			}
+			return newPath;
+		};
+		var parseUrl = function(url) {
+			var parser =  document.createElement('a');
+			parser.href = url;
+			return parser;
+		};
+		var writeElement = function(arr, prefix, suffix ) {
+			var rewrite = needsRewrite();
+			var newPath = "";
+			if (rewrite) {
+				newPath = getNewPath(projName, location.pathname);
+			} 
+			for (var i=0; i<arr.length; i++) {
+				var curPath = arr[i];
+				var parser = parseUrl(curPath); 
+				if (parser.host == location.host) {
+					curPath = newPath + curPath;
+				}
+				document.write(prefix+curPath+suffix);
+			}
+		};
+		
+		var writeStyles = function() {
+			var stylesArr = "/styles/twitter-bootstrap.css,/styles/style.css,/styles/stickyfooter.css".split(",");
+			var prefix = "<link  rel='stylesheet' href='";
+			var suffix = "' />";
+			writeElement(stylesArr, prefix, suffix);
+		};
+		
+		var writeScripts = function() {
+			var scriptsArr = "//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js,//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js,/vendor/twitter-bootstrap/dist/js/bootstrap.min.js,/scripts/script.js".split(",");
+			var prefix = "<script defer='defer' src=\"";
+			var suffix = "\"></ script>";
+			writeElement(scriptsArr, prefix, suffix);
+		};
+		writeStyles();
+	</script>
+</head>
+<body>
+	<!-- Menu -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="navbar-brand"><a class="navbar-link rewritable-url" href="http://harvester-snapshot.redboxresearchdata.com.au/">ReDBox Harvester</a> - <a class="navbar-link rewritable-url" href="http://harvester-jdbc-redbox-snapshot.redboxresearchdata.com.au/">JDBC Dataset Harvester </a></div>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					
+						<li
+							typeof="sioc:Page"
+							about="/pages/installation"
+							class="active"
+						>
+							<a href="/pages/installation" property="dc:title">
+								Installation
+							</a>
+						</li>
+					
+						<li
+							typeof="sioc:Page"
+							about="/pages/configuration"
+							class=""
+						>
+							<a href="/pages/configuration" property="dc:title">
+								Configuration
+							</a>
+						</li>
+					
+				</ul>
+			</div><!--/.navbar-collapse -->
+		</div>
+	</div>
+
+	<!-- Content -->
+	<div class="container">
+		<!-- Content -->
+		<section id="content" class="content">
+			<article id="page" class="page">
+	<h1>Installation</h1>
+	<div class="page-content"><p>This harvester can installed in 2 ways: as a console application (console) or embedded within the JSON Harvester Client Manager (server).
+Please make sure that you have installed and configured your <a href="http://harvester-json-snapshot.redboxresearchdata.com.au/" class="rewritable-url">JSON Harvester Server Plugin</a>.
+Tested to work starting with ReDBox 1.7 or above and Java 1.7 or above.</p>
+<h3 id="console-installation">Console installation</h3>
+<p>This mode allows the harvester client to execute from a shell environment (cron, etc.).</p>
+<pre><code>mkdir console-only
+cd console-only
+curl -L -o redbox-dataset-jdbc-harvester.zip &quot;http://dev.redboxresearchdata.com.au/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=au.com.redboxresearchdata&amp;a=redbox-dataset-jdbc-harvester-template&amp;v=LATEST&amp;c=bin-console&amp;e=zip&quot;
+unzip redbox-dataset-jdbc-harvester.zip -d redbox-dataset-jdbc-harvester
+cd redbox-dataset-jdbc-harvester
+chmod +x harvest.sh
+</code></pre><p>To execute the harvest:</p>
+<pre><code>./harvest.sh
+</code></pre><p>Some dataset records should then be visible in ReDBox with title that start with &quot;JSON Harvester&quot;.</p>
+<p>To stop the client, press &quot;CTRL+C&quot;.</p>
+<p>For the most part, the console deployment will meet most needs. For more advanced use cases, the Harvester can also be deployed inside a web application: the Server model.</p>
+<h3 id="server-model-installation">Server-model installation</h3>
+<p>This mode allows one or many harvesters execute within a web application - the <a href="http://harvester-manager-snapshot.redboxresearchdata.com.au/" class="rewritable-url">Harvester Manager</a>. The Harvester Manager exposes an API through which administrators or external applications can control the harvesters. As of writing, the API is unsecured and assumes that the server is running on a secured network. The code snippets below apply to Ubuntu 12.04 32-bit instance with Tomcat 7. Please adjust the commands as it pertains to your distribution and software stack of choice.</p>
+<h4 id="install-an-application-server-e-g-tomcat-use-8080-as-the-server-port-">Install an application server, e.g. Tomcat. Use 8080 as the server port.</h4>
+<p>Install Tomcat7 on Debian-based (e.g. Ubuntu) distros:</p>
+<pre><code>sudo apt-get -y install tomcat7 tomcat7-admin
+sudo chmod g+w /usr/share/tomcat7
+</code></pre><h4 id="-download-the-harvester-manager-war-file-managerwarsnapshot-and-install-it-using-the-application-server-specific-method-"><a href="http://dev.redboxresearchdata.com.au/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=au.com.redboxresearchdata&amp;a=json-harvester-manager&amp;v=LATEST&amp;e=war">Download the harvester manager war file</a> and install it using the application-server specific method.</h4>
+<p>Deploying the Manager to Tomcat in a Ubuntu server:</p>
+<pre><code>curl -L -o json-harvester-manager.war &quot;http://dev.redboxresearchdata.com.au/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=au.com.redboxresearchdata&amp;a=json-harvester-manager&amp;v=LATEST&amp;e=war&quot;
+sudo cp json-harvester-manager.war /var/lib/tomcat7/webapps/json-harvester-manager.war.tmp
+
+sudo mv /var/lib/tomcat7/webapps/json-harvester-manager.war.tmp /var/lib/tomcat7/webapps/json-harvester-manager.war
+</code></pre><h4 id="add-a-harvester-client-to-the-manager-and-optionally-verify-that-the-harvester-has-been-added-">Add a harvester client to the Manager and optionally verify that the harvester has been added.</h4>
+<p>Quickly installing a harvester client to the Manager:</p>
+<pre><code>curl -i -H &quot;Accept: application/json&quot; http://localhost:8080/json-harvester-manager/harvester/createFromTemplate/redboxSampleJdbcHarvester?template=redboxSampleJdbcHarvester
+</code></pre><p>Verifying the harvester client installation:</p>
+<pre><code>curl -i -H &quot;Accept: application/json&quot; http://localhost:8080/json-harvester-manager/harvester/
+</code></pre><h4 id="start-the-harvester-">Start the harvester.</h4>
+<p>Starting the harvester through the Manager API:</p>
+<pre><code>curl -i -H &quot;Accept: application/json&quot; http://localhost:8080/json-harvester-manager/harvester/start/redboxSampleJdbcHarvester
+</code></pre><p>Since the implementation packages a internal dabase, some dataset records should then be visible in ReDBox with title that start with &quot;JSON Harvester&quot;.</p>
+<h4 id="stop-the-harvester-">Stop the harvester.</h4>
+<pre><code>curl -i -H &quot;Accept: application/json&quot; http://localhost:8080/json-harvester-manager/harvester/stop/redboxSampleJdbcHarvester
+</code></pre></div>
+</article>
+		</section>
+
+		
+	</div><!-- /container -->
+	<!-- Footer -->
+	<div class="footer">
+			<div class="container">
+				<div class="col-md-6">
+					<div class="panel-body text-center">
+						<a href="http://harvester-snapshot.redboxresearchdata.com.au/" class="btn btn-default btn-med rewritable-url">Main Documentation</a>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel-body text-center">
+						<a href="http://harvester-jdbc-redbox-snapshot.redboxresearchdata.com.au/" class="btn btn-default btn-med rewritable-url">JDBC Dataset Harvester Documentation</a>
+					</div>
+				</div>
+				<p class="pull-left">&copy; 2014 <a href="http://www.qcif.edu.au/" target="_blank">Queensland Cyber Infrastructure Foundation</a></p>
+				<p class="pull-right">This website was last updated at 2014-07-10T05:34:58.477Z</p>
+			</div>
+	    </div>
+	<!-- Scripts -->
+	<script type="text/javascript">
+		onload = function () {
+			if (location.hostname.indexOf("github.io") >= 0) {
+				location.href = siteUrl + location.pathname.replace(projName+"/", "") + location.search + location.hash;
+			}
+			var pathname = location.pathname;
+			if (needsRewrite()) {
+				rewriteNavLinkUrl(projName, pathname);
+			}
+		};		
+		var rewriteNavLinkUrl = function(projName, pathName) {
+			var newPath = getNewPath(projName, pathName);			
+			for (var i = 0; i < document.links.length; i++) {
+				if (document.links[i].className.indexOf("rewritable-url") >= 0 ) {
+					var parser = parseUrl(document.links[i].href);
+					document.links[i].href =  parser.protocol + "//" + parser.host + newPath + parser.pathname + parser.search + parser.hash;
+				}
+			}			
+		};
+		writeScripts();
+	</script>
+</body>
+</html>
